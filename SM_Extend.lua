@@ -685,11 +685,17 @@ function aoeTaunt()
 	if not (OnCooldown("Challenging Shout") and GetContainerItemCooldown(bag, slot)) then
 		UseItemByName("Limited Invulnerability Potion")
 		CastSpellByName("Challenging Shout")
-		SendChatMessage("AOE Taunt + LIP -> check HP please!","YELL")
+		SendChatMessage("AOE Taunt + LIP -> check HP please!","RAID")
 	end
 end
 
-
+function NoMod()
+	if (not IsShiftKeyDown() and not IsControlKeyDown() and not IsAltKeyDown()) then
+		return true
+	else
+		return false
+	end
+end
 
 
 
