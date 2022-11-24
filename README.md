@@ -83,6 +83,10 @@ Pummel and Shield Bash in one button. If you have a shield equipped you cast Shi
 /run aoeTaunt()
 ```
 Casts Challenging Shout and uses a LIP - IF none is on CD.
+```
+/run NoMod()
+```
+A no modificator function. Returns true if shift and control and alt is not pressed down. Else returns false.
 
 ## Get icon and tooltip
 Add the following line as FIRST line to every macro
