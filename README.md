@@ -17,7 +17,7 @@ Starts your auto attack -> you need your auto attack somewhere on your action ba
 ```
 Starts your auto attack without the need of having your auto attack somewhere on your action bar (works with og UI, pfUI and MAYBE zUI and modUI).
 ```
-/run stanceDance(stance, ifspell, elsespell)
+/run stanceDance(stance, "ifspell", "elsespell")
 ```
 Switches your stance (works for druids and warriors). Casts the "ifspell" if you are in the "stance" otherwise casts the "elsespell".
 ```
@@ -29,19 +29,19 @@ Casts Heroic Strike if you have more rage than specified with "value".
 ```
 Same as above just the parameter is called "amount".
 ```
-/run rebuff(spellhere, targetWho)
+/run rebuff("spellhere", "targetWho")
 ```
 Re-uses the buff OR debuff when the specified unit ("targetWho") doesn't have the buff/debuff.
 Eg. /run rebuff("Battle Shout","player") -> casts Battle Shout if you don't have the buff
     /run rebuff("Corruption","target") -> casts Corruption if the target is not affected by it
 ```
-/run StackCast(spell,numstacks)
+/run StackCast("spell",numstacks)
 ```
 Casts a "spell" until the stacks are reached.
 Eg. /run StackCast("Sunder Armor",5) -> casts Sunder Armor until the target got 5 stacks
     /run StackCast("Scorch",5) -> same as above but with Scorch
 ```
-/run OnCooldown(spell)
+/run OnCooldown("spell")
 ```
 Checks if a "spell" is on CD.
 ```
@@ -67,12 +67,12 @@ Eg. /run startAttack()
 ```
 Starts wanding without interrupting.
 ```
-/run petHandling(petFood)
+/run petHandling("petFood")
 ```
 Declare "petFood" as the name of the food your pet needs. Also casts Call Pet, Dismiss Pet, Revive Pet and Feed Pet in one button.
 Eg. /run petHandling("Roasted Quail")
 ```
-/run fdTrap(trapName)
+/run fdTrap("trapName")
 ```
 You need this macro to be able to use a trap in combat -> declare "trapName" to the trap you want to lay down.
 ```
