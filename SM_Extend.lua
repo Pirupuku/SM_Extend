@@ -32,6 +32,16 @@ function rebuff(spellhere, targetWho)
 	if not FindBuff(spellhere, targetWho) then CastSpellByName(spellhere) end
 end
 
+function hsqueue()
+  local cur = currentMHSwingTime
+  local max = totalMHSwingTime
+  if (max - cur < 1) and (UnitMana("player") < 75) then
+    SpellStopCasting()
+  else
+    CastSpellByName("Heroic Strike")
+  end
+end
+
 function mouseoverSpell(spell)
   if UnitExists("mouseover") then
     local switchback = not UnitIsUnit("target", "mouseover")
@@ -685,7 +695,7 @@ function aoeTaunt()
 	if not (OnCooldown("Challenging Shout") and GetContainerItemCooldown(bag, slot)) then
 		UseItemByName("Limited Invulnerability Potion")
 		CastSpellByName("Challenging Shout")
-		SendChatMessage("AOE Taunt + LIP -> check HP please!","RAID")
+		SendChatMessage("AOE Taunt + LIP -> check HP please!","YELL")
 	end
 end
 
@@ -697,29 +707,81 @@ function NoMod()
 	end
 end
 
+function nearestPlayer()
+	if UnitHealth("target")==0 and UnitExists("target") then ClearTarget(); end
+	if GetUnitName("target")==nil then TargetNearestEnemy() end
+	if UnitExists("target") and not UnitIsPlayer("target") then TargetNearestEnemy() end
+end
 
+function chainChain(helpspell,helprank,harmspell,harmrank)
+  if UnitExists("target") then
+    local s=not UnitIsUnit("target", "mouseover")
+  end
 
+  if helprank == "" and harmrank == "" then
+    if IsAltKeyDown() then
+      TargetUnit("player")
+      CastSpellByName(helpspell)
+      if s then
+        TargetLastTarget()
+      end
+    else
+      if UnitIsFriend("target","player") then
+        CastSpellByName(helpspell)
+      else
+        CastSpellByName(harmspell)
+      end
+    end
+  end
+  
+  if helprank == "" and harmrank ~= "" then
+    if IsAltKeyDown() then
+      TargetUnit("player")
+      CastSpellByName(helpspell)
+      if s then
+        TargetLastTarget()
+      end
+    else
+      if UnitIsFriend("target","player") then
+        CastSpellByName(helpspell)
+      else
+        CastSpellByName(harmspell.."(Rank "..harmrank..")")
+      end
+    end
+  end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  if helprank ~= "" and harmrank == "" then
+    if IsAltKeyDown() then
+      TargetUnit("player")
+      CastSpellByName(helpspell.."(Rank "..helprank..")")
+      if s then
+        TargetLastTarget()
+      end
+    else
+      if UnitIsFriend("target","player") then
+        CastSpellByName(helpspell.."(Rank "..helprank..")")
+      else
+        CastSpellByName(harmspell)
+      end
+    end
+  end
+  
+  if helprank ~= "" and harmrank ~= "" then
+    if IsAltKeyDown() then
+      TargetUnit("player")
+      CastSpellByName(helpspell.."(Rank "..helprank..")")
+      if s then
+        TargetLastTarget()
+      end
+    else
+      if UnitIsFriend("target","player") then
+        CastSpellByName(helpspell.."(Rank "..helprank..")")
+      else
+        CastSpellByName(harmspell.."(Rank "..harmrank..")")
+      end
+    end
+  end  
+end
 
 
 
