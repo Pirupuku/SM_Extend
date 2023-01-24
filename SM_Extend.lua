@@ -693,7 +693,9 @@ end
 function aoeTaunt()
 	local bag,slot=FindItem("Limited Invulnerability Potion")
 	if not (OnCooldown("Challenging Shout") and GetContainerItemCooldown(bag, slot)) then
-		UseItemByName("Limited Invulnerability Potion")
+		for i=1,100 do
+			UseItemByName("Limited Invulnerability Potion")
+		end
 		CastSpellByName("Challenging Shout")
 		SendChatMessage("AOE Taunt + LIP -> check HP please!","YELL")
 	end
