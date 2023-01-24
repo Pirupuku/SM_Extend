@@ -691,12 +691,17 @@ function frostboltSwap()
 end
 
 function aoeTaunt()
-	local bag,slot=FindItem("Limited Invulnerability Potion")
-	if not (OnCooldown("Challenging Shout") and GetContainerItemCooldown(bag, slot)) then
-		for i=1,100 do
+	local sUpErCoUnTeR = 0
+	if not (OnCooldown("Challenging Shout") and OnCooldown("Limited Invulnerability Potion")) then
+		if not FindBuff("Limited Invulnerability","player") then
 			UseItemByName("Limited Invulnerability Potion")
+		else
+			CastSpellByName("Challenging Shout")
 		end
-		CastSpellByName("Challenging Shout")
+		sUpErCoUnTeR = 1
+		
+	end
+	if sUpErCoUnTeR == 1 then
 		SendChatMessage("AOE Taunt + LIP -> check HP please!","YELL")
 	end
 end
