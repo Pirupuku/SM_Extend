@@ -693,7 +693,7 @@ end
 function aoeTaunt()
 	local sUpErCoUnTeR = 0
 	if not (OnCooldown("Challenging Shout") and OnCooldown("Limited Invulnerability Potion")) then
-		if not FindBuff("Limited Invulnerability","player") then
+		if not FindBuff("Invulnerability","player") then
 			UseItemByName("Limited Invulnerability Potion")
 		else
 			CastSpellByName("Challenging Shout")
