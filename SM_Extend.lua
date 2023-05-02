@@ -799,3 +799,14 @@ function weaponSwap(two,mh,oh)
 		b,s=FindItem(two) PickupContainerItem(b,s) EquipCursorItem(16)
 	end
 end
+
+function weaponSwapExe(mh1,oh1,mh2,oh2)
+	local b,s=bag,slot
+	if (UnitHealth("target")/UnitHealthMax("target"))*100<=20 then
+		b,s=FindItem(mh2) PickupContainerItem(b,s) EquipCursorItem(16)
+		b,s=FindItem(oh2) PickupContainerItem(b,s) EquipCursorItem(17)
+	else
+		b,s=FindItem(mh1) PickupContainerItem(b,s) EquipCursorItem(16)
+		b,s=FindItem(oh1) PickupContainerItem(b,s) EquipCursorItem(17)
+	end
+end
