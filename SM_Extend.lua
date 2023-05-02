@@ -797,7 +797,7 @@ function FindIt(item)
 	for i = 1,23 do
 		link = GetInventoryItemLink("player",i);
 		if ( link ) then
-			if ( item == string.lower(ItemLinkToName(link)) )then
+			if ( item == string.lower(LinkToName(link)) )then
 				return i, nil, GetInventoryItemTexture('player', i), GetInventoryItemCount('player', i);
 			end
 		end
@@ -808,7 +808,7 @@ function FindIt(item)
 		for j = 1,MAX_CONTAINER_ITEMS do
 			link = GetContainerItemLink(i,j);
 			if ( link ) then
-				if ( item == string.lower(ItemLinkToName(link))) then
+				if ( item == string.lower(LinkToName(link))) then
 					bag, slot = i, j;
 					texture, count = GetContainerItemInfo(i,j);
 					totalcount = totalcount + count;
@@ -819,3 +819,8 @@ function FindIt(item)
 	return bag, slot, texture, totalcount;
 end
 
+function LinkToName(link)
+	if ( link ) then
+   	return gsub(link,"^.*%[(.*)%].*$","%1");
+	end
+end
