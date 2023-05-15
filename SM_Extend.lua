@@ -801,7 +801,7 @@ function weaponSwap(two,mh,oh)
 end
 
 function weaponSwapExe(mh1,oh1,mh2,oh2)
-	local b,s=bag,slot
+	local b,s
 	if GetInventoryItemLink("player",17) == mh2 then
 		PickupInventoryItem(17)
 		EquipCursorItem(16)
