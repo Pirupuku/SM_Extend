@@ -802,11 +802,23 @@ end
 
 function weaponSwapExe(mh1,oh1,mh2,oh2)
 	local b,s=bag,slot
-	if (UnitHealth("target")/UnitHealthMax("target"))*100<=20 then
+	if GetInventoryItemLink("player",17) == mh2 then
+		PickupInventoryItem(17)
+		EquipCursorItem(16)
+	else
 		b,s=FindItem(mh2) PickupContainerItem(b,s) EquipCursorItem(16)
 		b,s=FindItem(oh2) PickupContainerItem(b,s) EquipCursorItem(17)
-	else
 		b,s=FindItem(mh1) PickupContainerItem(b,s) EquipCursorItem(16)
 		b,s=FindItem(oh1) PickupContainerItem(b,s) EquipCursorItem(17)
 	end
 end
+
+--function sosHeal(tank,percent)
+--	local class = UnitClass("player")
+--	local currentTarget
+--	if UnitExists("target") then
+--		currentTarget = UnitName("target")	
+--	end
+--	if UnitClass == "Priest" then
+--		if UnitHealth(currentTank) / UnitMaxHealth(TargetByName(tank)
+--	end
