@@ -790,13 +790,30 @@ function chainChain(helpspell,helprank,harmspell,harmrank)
   end  
 end
 
-function weaponSwap(two,mh,oh)
-	local b,s=bag,slot
-	if GetInventoryItemLink("player",17)==nil then
-		b,s=FindItem(mh) PickupContainerItem(b,s) EquipCursorItem(16)
-		b,s=FindItem(oh) PickupContainerItem(b,s) EquipCursorItem(17)
+function weaponSwap(mh1,oh1,mh2,oh2)
+	local b,s
+	local currentMH = GetInventoryItemLink("player",16)
+	local currentOH = GetInventoryItemLink("player",17)
+	if oh1 == "" or oh1 == nil or oh2 == "" or oh2 == nil then	
+		if GetInventoryItemLink("player",17)==nil then
+			b,s=FindItem(mh2) PickupContainerItem(b,s) EquipCursorItem(16)
+			b,s=FindItem(oh2) PickupContainerItem(b,s) EquipCursorItem(17)
+		else
+			b,s=FindItem(mh1) PickupContainerItem(b,s) EquipCursorItem(16)
+		end
 	else
-		b,s=FindItem(two) PickupContainerItem(b,s) EquipCursorItem(16)
+		if GetInventoryItemLink("player",17) == mh2 then
+			PickupInventoryItem(17)
+			EquipCursorItem(16)
+		else
+			if currentMH == mh1 then
+				b,s=FindItem(mh2) PickupContainerItem(b,s) EquipCursorItem(16)
+				b,s=FindItem(oh2) PickupContainerItem(b,s) EquipCursorItem(17)
+			elseif currentMH == mh2 then
+				b,s=FindItem(mh1) PickupContainerItem(b,s) EquipCursorItem(16)
+				b,s=FindItem(oh1) PickupContainerItem(b,s) EquipCursorItem(17)
+			end
+		end
 	end
 end
 
