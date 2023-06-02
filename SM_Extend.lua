@@ -810,14 +810,17 @@ function weaponSwap(mh1,oh1,mh2,oh2)
 			PickupInventoryItem(17)
 			EquipCursorItem(16)
 		else
-			if currentMH == mh1 then
+			if strfind(currentMH,mh1) then
+				--DEFAULT_CHAT_FRAME:AddMessage("I am here")
 				b,s=FindItem(mh2) PickupContainerItem(b,s) EquipCursorItem(16)
 				b,s=FindItem(oh2) PickupContainerItem(b,s) EquipCursorItem(17)
 			else
-				if currentMH == mh2 then
+				if strfind(currentMH,mh2) then
+					--DEFAULT_CHAT_FRAME:AddMessage("I am")
 					b,s=FindItem(mh1) PickupContainerItem(b,s) EquipCursorItem(16)
 					b,s=FindItem(oh1) PickupContainerItem(b,s) EquipCursorItem(17)
 				else
+					--DEFAULT_CHAT_FRAME:AddMessage("I")
 					b,s=FindItem(mh1) PickupContainerItem(b,s) EquipCursorItem(16)
 					b,s=FindItem(oh1) PickupContainerItem(b,s) EquipCursorItem(17)
 				end
