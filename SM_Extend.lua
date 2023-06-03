@@ -829,6 +829,27 @@ function weaponSwap(mh1,oh1,mh2,oh2)
 	end
 end
 
+function doubleWF()
+	local hasMH, mainHandExpiration, mainHandCharges, hasOH, offHandExpiration, offHandCharges, hasThrownEnchant, thrownExpiration, thrownCharges = GetWeaponEnchantInfo()
+	local counter
+	if counter == nil then
+		counter = 0
+	end
+	if hasMH and counter == 0 then
+		PickupInventoryItem(17)
+		EquipCursorItem(16)
+		counter = 1
+	end
+	if hasOH and counter == 1 then
+		PickupInventoryItem(17)
+		EquipCursorItem(16)
+		counter = 2
+	end
+	if not hasMH then
+		counter = 0
+	end
+end
+
 --function sosHeal(tank,percent)
 --	local class = UnitClass("player")
 --	local currentTarget
