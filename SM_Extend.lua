@@ -15,6 +15,10 @@ function startAttack()
 	if not PlayerFrame.inCombat then AttackTarget() end
 end
 
+function sa2(slot)
+	if not IsCurrentAction(slot) then UseAction(slot) end;
+end
+
 function stanceDance(stance, ifspell, elsespell)
 	local texture,name,isActive,isCastable = GetShapeshiftFormInfo(stance)
 	if isActive then CastSpellByName(ifspell) else CastSpellByName(elsespell) end
@@ -117,7 +121,7 @@ function OnCooldown(spell)
 	if not SpellExists(spell) then return true end
 	local start,duration,enable = GetSpellCooldown(SpellNum(spell),BOOKTYPE_SPELL)
 	if duration==0 then
-		return
+		return 0
 	else
 		return duration
 	end
@@ -589,6 +593,7 @@ end
 function aq40KillOrder()
 	local far,sfr,m,ka,t,tc,ms,mb,ss="Fire and Arcane Reflect","Shadow and Frost Reflect","Mending","Knock Away","Thorns","Thunderclap","Mortal Strike","Mana Burn","Shadow Storm"
 	local tar="target"
+	superAntiSpamaq40KillOrderVariable = 0
 	if not FindBuff("Detect Magic",tar) then
 		cast("Detect Magic") 
 	end
@@ -627,9 +632,9 @@ function aq40KillOrder()
 		SetRaidTarget(tar,6)
 		SendChatMessage("Blue Box -> "..ss,"YELL")
 	end
-	if FindBuff(tc,tar) then
+	if FindBuff(tc,tar) and superAntiSpamaq40KillOrderVariable == 0 then
 		SendChatMessage("Unmarked -> "..tc,"YELL")
-		antiSpam=1
+		superAntiSpamaq40KillOrderVariable = 1
 	end 
 end
 
@@ -787,7 +792,8 @@ function chainChain(helpspell,helprank,harmspell,harmrank)
         CastSpellByName(harmspell.."(Rank "..harmrank..")")
       end
     end
-  end  
+  end
+  
 end
 
 function weaponSwap(mh1,oh1,mh2,oh2)
@@ -829,33 +835,53 @@ function weaponSwap(mh1,oh1,mh2,oh2)
 	end
 end
 
-function doubleWF()
+function doubleWF(mh)
 	local hasMH, mainHandExpiration, mainHandCharges, hasOH, offHandExpiration, offHandCharges, hasThrownEnchant, thrownExpiration, thrownCharges = GetWeaponEnchantInfo()
-	local counter
-	if counter == nil then
-		counter = 0
+	if mainHandExpiration == nil then
+		mainHandExpiration = ""
 	end
-	if hasMH and counter == 0 then
-		PickupInventoryItem(17)
-		EquipCursorItem(16)
-		counter = 1
+
+	if not hasMH and not hasOH and not strfind(GetInventoryItemLink("player",16), mh) then
+		PickupInventoryItem(16)
+		EquipCursorItem(17)
 	end
-	if hasOH and counter == 1 then
-		PickupInventoryItem(17)
-		EquipCursorItem(16)
-		counter = 2
-	end
-	if not hasMH then
-		counter = 0
+	if GetInventoryItemLink("player",16) == GetInventoryItemLink("player",17) then
+		if hasMH and hasOH ~= 1 and mainHandExpiration < 6500 then
+			PickupInventoryItem(16)
+			EquipCursorItem(17)
+		end
+	else
+		--SM_print("DEBUG: hasMH="..hasMH)
+		--SM_print("DEBUG: hasOH="..hasOH)
+		if hasMH and hasOH ~= 1 and mainHandExpiration < 6500 then
+			PickupInventoryItem(16)
+			EquipCursorItem(17)
+		end
+		if hasMH and hasOH and not strfind(GetInventoryItemLink("player",16), mh) then
+			PickupInventoryItem(16)
+			EquipCursorItem(17)
+		end
 	end
 end
 
---function sosHeal(tank,percent)
---	local class = UnitClass("player")
---	local currentTarget
---	if UnitExists("target") then
---		currentTarget = UnitName("target")	
---	end
---	if UnitClass == "Priest" then
---		if UnitHealth(currentTank) / UnitMaxHealth(TargetByName(tank)
---	end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
