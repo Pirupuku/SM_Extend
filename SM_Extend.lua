@@ -870,7 +870,25 @@ function lipping()
 	end
 end
 
-
+function NSprio()
+	local class = UnitClass("player")
+	if UnitHealth("target")/UnitMaxHealth("target")*100 < 15 then
+		if class == "Shaman" then
+			if OnCooldown("Nature's Swiftness")==0 then
+				SpellStopCasting()
+				CastSpellByName("Nature's Swiftness")
+				CastSpellByName("Healing Wave")
+			end
+		end
+		if class == "Druid" then
+			if OnCooldown("Nature's Swiftness")==0 then
+				SpellStopCasting()
+				CastSpellByName("Nature's Swiftness")
+				CastSpellByName("Healing Touch")
+			end
+		end
+	end
+end
 
 
 
