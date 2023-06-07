@@ -864,7 +864,7 @@ function doubleWF(mh)
 	end
 end
 
-function aLipForLive()
+function lipping()
 	if UnitIsUnit("player","target") then
 		use("Limited Invulnerability Potion")
 	end
