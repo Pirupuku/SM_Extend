@@ -120,10 +120,11 @@ function OnCooldown(spell)
 	--Important helper function that returns true(actually the duration left) if a spell is on cooldown, nil if not.
 	if not SpellExists(spell) then return true end
 	local start,duration,enable = GetSpellCooldown(SpellNum(spell),BOOKTYPE_SPELL)
-	if duration==0 then
+	local restCD = start-GetTime()+duration
+	if restCD==0 then
 		return 0
 	else
-		return duration
+		return restCD
 	end
 end
 
