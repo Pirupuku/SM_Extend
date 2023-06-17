@@ -169,8 +169,13 @@ function grpRotation(uniquespellname, grpname)
 	CastSpellByName(uniquespellname)
 end
 
-function sunderArmor()
-	KLHTM_Sunder()
+function sunderArmor(rage)
+	if rage == nil then
+		rage = 0
+	end
+	if UnitMana("player") > rage then
+		KLHTM_Sunder()
+	end
 end
 
 function showtooltip(spellnameandrank)
