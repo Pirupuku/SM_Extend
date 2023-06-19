@@ -121,10 +121,14 @@ function OnCooldown(spell)
 	if not SpellExists(spell) then return true end
 	local start,duration,enable = GetSpellCooldown(SpellNum(spell),BOOKTYPE_SPELL)
 	local restCD = start-GetTime()+duration
-	if restCD==0 then
+	if start == 0 then
 		return 0
 	else
-		return restCD
+		if restCD==0 then
+			return 0
+		else
+			return restCD
+		end
 	end
 end
 
