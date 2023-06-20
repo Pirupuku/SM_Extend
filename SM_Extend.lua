@@ -575,7 +575,9 @@ end
 
 function lightningTotem(spellName)
 	local currentTarget
-	currentTarget = UnitName("target")
+	if UnitExists("target") then
+		currentTarget = UnitName("target")
+	end
 	TargetByName("Lightning Totem",true)
 	if currentTarget==TargetByName("Lightning Totem") then
 		CastSpellByName(spellName)
@@ -709,7 +711,7 @@ function aoeTaunt()
 	local bag,slot=FindItem("Limited Invulnerability Potion")
 	if bag ~= nil and slot ~= nil then
 		if OnCooldown("Challenging Shout")==0 or GetContainerItemCooldown(bag, slot)==0 then
-			if UnitMana("player") >= 3 then
+			if UnitMana("player") >= 5 then
 				if not FindBuff("Invulnerability","player") then
 					UseItemByName("Limited Invulnerability Potion")
 				--else
@@ -730,9 +732,15 @@ function NoMod()
 end
 
 function nearestPlayer()
-	if UnitHealth("target")==0 and UnitExists("target") then ClearTarget(); end
-	if GetUnitName("target")==nil then TargetNearestEnemy() end
-	if UnitExists("target") and not UnitIsPlayer("target") then TargetNearestEnemy() end
+	if UnitHealth("target")==0 and UnitExists("target") then
+		ClearTarget()
+	end
+	if GetUnitName("target")==nil then
+		TargetNearestEnemy()
+	end
+	if UnitExists("target") and not UnitIsPlayer("target") then
+		TargetNearestEnemy()
+	end
 end
 
 function chainChain(helpspell,helprank,harmspell,harmrank)
@@ -875,26 +883,30 @@ function doubleWF(mh)
 end
 
 function lipping()
-	if UnitIsUnit("player","target") then
-		use("Limited Invulnerability Potion")
+	if UnitExists("target") then
+		if UnitIsUnit("player","target") then
+			use("Limited Invulnerability Potion")
+		end
 	end
 end
 
 function NSprio()
 	local class = UnitClass("player")
-	if UnitHealth("target")/UnitMaxHealth("target")*100 < 15 then
-		if class == "Shaman" then
-			if OnCooldown("Nature's Swiftness")==0 then
-				SpellStopCasting()
-				CastSpellByName("Nature's Swiftness")
-				CastSpellByName("Healing Wave")
+	if UnitExists("target") then
+		if UnitHealth("target")/UnitMaxHealth("target")*100 < 15 then
+			if class == "Shaman" then
+				if OnCooldown("Nature's Swiftness")==0 then
+					SpellStopCasting()
+					CastSpellByName("Nature's Swiftness")
+					CastSpellByName("Healing Wave")
+				end
 			end
-		end
-		if class == "Druid" then
-			if OnCooldown("Nature's Swiftness")==0 then
-				SpellStopCasting()
-				CastSpellByName("Nature's Swiftness")
-				CastSpellByName("Healing Touch")
+			if class == "Druid" then
+				if OnCooldown("Nature's Swiftness")==0 then
+					SpellStopCasting()
+					CastSpellByName("Nature's Swiftness")
+					CastSpellByName("Healing Touch")
+				end
 			end
 		end
 	end
