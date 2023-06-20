@@ -900,7 +900,24 @@ function NSprio()
 	end
 end
 
-
+function gibWF(player)
+	local myName, mySubgroup, myClass
+	for i = 1, MAX_RAID_MEMBERS do
+		local raidName, _, raidSubgroup, _, raidClass = GetRaidRosterInfo(i)
+		local shamanName, _, shamanSubgroup, _, shamanClass = GetRaidRosterInfo(i)
+		if raidName == player then
+			myName = raidName
+			mySubgroup = raidSubgroup
+			myClass = raidClass
+		end
+		if shamanSubgroup == mySubgroup and UnitAffectingCombat("player") and cryNoWF then
+			SendChatMessage("<- pls place WF totem closer", "WHISPER", nil, shamanName)
+			cryNoWF = False
+		else
+			cryNoWF = True
+		end
+	end
+end
 
 
 
