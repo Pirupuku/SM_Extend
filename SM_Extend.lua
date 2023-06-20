@@ -902,6 +902,7 @@ end
 
 function gibWF(player)
 	local myName, mySubgroup, myClass
+	local hasMHenchant = GetWeaponEnchantInfo()
 	for i = 1, MAX_RAID_MEMBERS do
 		local raidName, _, raidSubgroup, _, raidClass = GetRaidRosterInfo(i)
 		local shamanName, _, shamanSubgroup, _, shamanClass = GetRaidRosterInfo(i)
@@ -910,10 +911,10 @@ function gibWF(player)
 			mySubgroup = raidSubgroup
 			myClass = raidClass
 		end
-		if shamanSubgroup == mySubgroup and UnitAffectingCombat("player") and cryNoWF then
+		if shamanSubgroup == mySubgroup and UnitAffectingCombat("player") and not hasMHenchant and cryNoWF then
 			SendChatMessage("<- pls place WF totem closer", "WHISPER", nil, shamanName)
 			cryNoWF = False
-		else
+		elseif hasMHenchant then
 			cryNoWF = True
 		end
 	end
