@@ -855,27 +855,34 @@ end
 
 function doubleWF(mh)
 	local hasMH, mainHandExpiration, mainHandCharges, hasOH, offHandExpiration, offHandCharges, hasThrownEnchant, thrownExpiration, thrownCharges = GetWeaponEnchantInfo()
+	
+	if ABarSwingTimers() == nil then
+		ABarSwingTimers = 0
+	end
+	local swingTimeMH = UnitAttackSpeed("player") + ABarSwingTimers() - GetTime()
+	local swingThr = UnitAttackSpeed("player") * 0.85
+	
 	if mainHandExpiration == nil then
 		mainHandExpiration = ""
 	end
 
-	if not hasMH and not hasOH and not strfind(GetInventoryItemLink("player",16), mh) then
+	if not hasMH and not hasOH and not strfind(GetInventoryItemLink("player",16), mh) and swingTimeMH > swingThr then
 		PickupInventoryItem(16)
 		EquipCursorItem(17)
 	end
 	if GetInventoryItemLink("player",16) == GetInventoryItemLink("player",17) then
-		if hasMH and hasOH ~= 1 and mainHandExpiration < 6500 then
+		if hasMH and hasOH ~= 1 and swingTimeMH > swingThr then
 			PickupInventoryItem(16)
 			EquipCursorItem(17)
 		end
 	else
 		--SM_print("DEBUG: hasMH="..hasMH)
 		--SM_print("DEBUG: hasOH="..hasOH)
-		if hasMH and hasOH ~= 1 and mainHandExpiration < 6500 then
+		if hasMH and hasOH ~= 1 and swingTimeMH > swingThr then
 			PickupInventoryItem(16)
 			EquipCursorItem(17)
 		end
-		if hasMH and hasOH and not strfind(GetInventoryItemLink("player",16), mh) then
+		if hasMH and hasOH and not strfind(GetInventoryItemLink("player",16), mh) and swingTimeMH > swingThr then
 			PickupInventoryItem(16)
 			EquipCursorItem(17)
 		end
