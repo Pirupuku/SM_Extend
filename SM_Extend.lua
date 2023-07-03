@@ -28,6 +28,10 @@ function heroicStrike(value)
 	if UnitMana("player") > value then CastSpellByName("Heroic Strike") end
 end
 
+function cleaveRage(value)
+	if UnitMana("player") > value then CastSpellByName("Cleave") end
+end
+
 function hamstring(amount)
 	if UnitMana("player") > amount then CastSpellByName("Hamstring") end
 end
@@ -575,9 +579,7 @@ end
 
 function lightningTotem(spellName)
 	local currentTarget
-	if UnitExists("target") then
-		currentTarget = UnitName("target")
-	end
+	currentTarget = UnitName("target")
 	TargetByName("Lightning Totem",true)
 	if currentTarget==TargetByName("Lightning Totem") then
 		CastSpellByName(spellName)
@@ -711,7 +713,7 @@ function aoeTaunt()
 	local bag,slot=FindItem("Limited Invulnerability Potion")
 	if bag ~= nil and slot ~= nil then
 		if OnCooldown("Challenging Shout")==0 or GetContainerItemCooldown(bag, slot)==0 then
-			if UnitMana("player") >= 5 then
+			if UnitMana("player") >= 3 then
 				if not FindBuff("Invulnerability","player") then
 					UseItemByName("Limited Invulnerability Potion")
 				--else
@@ -732,15 +734,9 @@ function NoMod()
 end
 
 function nearestPlayer()
-	if UnitHealth("target")==0 and UnitExists("target") then
-		ClearTarget()
-	end
-	if GetUnitName("target")==nil then
-		TargetNearestEnemy()
-	end
-	if UnitExists("target") and not UnitIsPlayer("target") then
-		TargetNearestEnemy()
-	end
+	if UnitHealth("target")==0 and UnitExists("target") then ClearTarget(); end
+	if GetUnitName("target")==nil then TargetNearestEnemy() end
+	if UnitExists("target") and not UnitIsPlayer("target") then TargetNearestEnemy() end
 end
 
 function chainChain(helpspell,helprank,harmspell,harmrank)
@@ -833,6 +829,18 @@ function weaponSwap(mh1,oh1,mh2,oh2)
 		if mh1 == oh2 and mh2 == oh1 and currentOH ~= "" then
 			PickupInventoryItem(17)
 			EquipCursorItem(16)
+		elseif oh1 == mh2 then
+			if strfind(currentMH,mh1) then
+				PickupInventoryItem(17)
+				PutItemInBackpack()
+				b,s=FindItem(oh2) PickupContainerItem(b,s) EquipCursorItem(17)
+				b,s=FindItem(mh2) PickupContainerItem(b,s) EquipCursorItem(16)
+			else
+				PickupInventoryItem(16)
+				PutItemInBackpack()
+				b,s=FindItem(mh1) PickupContainerItem(b,s) EquipCursorItem(16)
+				b,s=FindItem(oh1) PickupContainerItem(b,s) EquipCursorItem(17)
+			end
 		else
 			if strfind(currentMH,mh1) then
 				--DEFAULT_CHAT_FRAME:AddMessage("I am here")
@@ -855,77 +863,84 @@ end
 
 function doubleWF(mh)
 	local hasMH, mainHandExpiration, mainHandCharges, hasOH, offHandExpiration, offHandCharges, hasThrownEnchant, thrownExpiration, thrownCharges = GetWeaponEnchantInfo()
-	
-	if ABarSwingTimers() == nil then
-		ABarSwingTimers = 0
+	local AbarSwingTimeMH, AbarSwingTimeOH, AbarSwingTimeR = ABarSwingTimers()
+	if AbarSwingTimeMH == nil then
+		AbarSwingTimeMH = 0
 	end
-	local swingTimeMH = UnitAttackSpeed("player") + ABarSwingTimers() - GetTime()
+	local swingTimeMH = UnitAttackSpeed("player") + AbarSwingTimeMH - GetTime()
 	local swingThr = UnitAttackSpeed("player") * 0.85
+	local class = UnitClass("player")
 	
-	if mainHandExpiration == nil then
-		mainHandExpiration = ""
-	end
+	if class == "Warrior" then
+		if mainHandExpiration == nil then
+			mainHandExpiration = ""
+		end
+		if offHandExpiration == nil then
+			offHandExpiration = ""
+		end
 
-	if not hasMH and not hasOH and not strfind(GetInventoryItemLink("player",16), mh) and swingTimeMH > swingThr then
-		PickupInventoryItem(16)
-		EquipCursorItem(17)
-	end
-	if GetInventoryItemLink("player",16) == GetInventoryItemLink("player",17) then
-		if hasMH and hasOH ~= 1 and swingTimeMH > swingThr then
+		if not strfind(GetInventoryItemLink("player",16), mh) and not UnitAffectingCombat("player") then
 			PickupInventoryItem(16)
 			EquipCursorItem(17)
 		end
-	else
-		--SM_print("DEBUG: hasMH="..hasMH)
-		--SM_print("DEBUG: hasOH="..hasOH)
-		if hasMH and hasOH ~= 1 and swingTimeMH > swingThr then
+		
+		if not hasMH and not hasOH and not strfind(GetInventoryItemLink("player",16), mh) then
 			PickupInventoryItem(16)
 			EquipCursorItem(17)
 		end
-		if hasMH and hasOH and not strfind(GetInventoryItemLink("player",16), mh) and swingTimeMH > swingThr then
-			PickupInventoryItem(16)
-			EquipCursorItem(17)
+		
+		if GetInventoryItemLink("player",16) == GetInventoryItemLink("player",17) and (OnCooldown("Bloodthirst") > 1.5 or OnCooldown("Whirlwind") > 1.5) then
+			if hasMH and hasOH ~= 1 and swingTimeMH > swingThr then
+				PickupInventoryItem(16)
+				EquipCursorItem(17)
+			end
+		else
+			--SM_print("DEBUG: hasMH="..hasMH)
+			--SM_print("DEBUG: hasOH="..hasOH)
+			if hasMH and hasOH ~= 1 and swingTimeMH > swingThr and (OnCooldown("Bloodthirst") > 1.5 or OnCooldown("Whirlwind") > 1.5) then
+				PickupInventoryItem(16)
+				EquipCursorItem(17)
+			elseif hasMH and hasOH and not strfind(GetInventoryItemLink("player",16), mh) and swingTimeMH > swingThr and (OnCooldown("Bloodthirst") > 1.5 or OnCooldown("Whirlwind") > 1.5) then
+				PickupInventoryItem(16)
+				EquipCursorItem(17)
+			end
 		end
 	end
 end
 
 function lipping()
-	if UnitExists("target") then
-		if UnitIsUnit("player","target") then
-			use("Limited Invulnerability Potion")
-		end
+	if UnitIsUnit("player","target") then
+		use("Limited Invulnerability Potion")
 	end
 end
 
 function NSprio()
 	local class = UnitClass("player")
-	if UnitExists("target") then
-		if UnitHealth("target")/UnitMaxHealth("target")*100 < 15 then
-			if class == "Shaman" then
-				if OnCooldown("Nature's Swiftness")==0 then
-					SpellStopCasting()
-					CastSpellByName("Nature's Swiftness")
-					CastSpellByName("Healing Wave")
-				end
+	if UnitHealth("target")/UnitMaxHealth("target")*100 < 15 then
+		if class == "Shaman" then
+			if OnCooldown("Nature's Swiftness")==0 then
+				SpellStopCasting()
+				CastSpellByName("Nature's Swiftness")
+				CastSpellByName("Healing Wave")
 			end
-			if class == "Druid" then
-				if OnCooldown("Nature's Swiftness")==0 then
-					SpellStopCasting()
-					CastSpellByName("Nature's Swiftness")
-					CastSpellByName("Healing Touch")
-				end
+		end
+		if class == "Druid" then
+			if OnCooldown("Nature's Swiftness")==0 then
+				SpellStopCasting()
+				CastSpellByName("Nature's Swiftness")
+				CastSpellByName("Healing Touch")
 			end
 		end
 	end
 end
 
-function gibWF(player)
+function gibWF()
 	local myName, mySubgroup, myClass
 	local hasMHenchant = GetWeaponEnchantInfo()
 	for i = 1, MAX_RAID_MEMBERS do
 		local raidName, _, raidSubgroup, _, raidClass = GetRaidRosterInfo(i)
 		local shamanName, _, shamanSubgroup, _, shamanClass = GetRaidRosterInfo(i)
-		if raidName == player then
+		if raidName == UnitName("player") then
 			myName = raidName
 			mySubgroup = raidSubgroup
 			myClass = raidClass
@@ -939,18 +954,40 @@ function gibWF(player)
 	end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function bestDisarm(role)
+	if role ~= nil then
+		role = string.lower(role)
+		if role == "tank" then
+			if OnCooldown("Disarm") == 0 and UnitMana("player") >= 20 and not buffed("Disarm","target") then
+				stanceDance(2, "Disarm", "Defensive Stance")
+			end
+		elseif role == "dps" then
+			if OnCooldown("Disarm") == 0 and UnitMana("player") >= 20 and not buffed("Disarm","target") then
+				stanceDance(2, "Disarm", "Defensive Stance")
+			elseif OnCooldown("Disarm") > 0 or buffed("Disarm","target") then
+				CastSpellByName("Berserker Stance")
+			end
+		end
+	end
+end
+ 
+function twoHand()
+	if OnCooldown("Bloodthirst") <= 1.5 then
+		CastSpellByName("Bloodthirst")
+	elseif OnCooldown("Whirlwind") <= 1.5 then
+		stanceDance(3,"Whirlwind","Berserker Stance")
+	else
+		hamstring(60)
+	end  
+end
+ 
+function dwMacro()
+	heroicStrike(50)
+	if OnCooldown("Bloodthirst") <= 1.5 then
+		CastSpellByName("Bloodthirst")
+	elseif OnCooldown("Whirlwind") <= 1.5 then
+		stanceDance(3,"Whirlwind","Berserker Stance")
+	else
+		hamstring(80)
+	end  
+end
