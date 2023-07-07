@@ -995,21 +995,42 @@ end
 function sosCast(spell,tank,hpThr)
  local class = UnitClass("player")
  if UnitExists("target") then
-  TargetByName(tank)
+  TargetByName(tank, 1)
   local tankHP = UnitHealth("target") × 100 / UnitMaxHealth("target")
   if tankHP <= hpThr then
-   CastSpellByName("Nature's Swiftness")
-   CastSpellByName("Healing Wave")
+   --einbetten mit OnCooldown, um spell sonst auf tank zu casten
+   SpellStopCasting()
+   if class == "Shaman" then
+    CastSpellByName("Nature's Swiftness")
+    CastSpellByName("Healing Wave")
+   elseif class == "Druid" then
+    CastSpellByName("Nature's Swiftness")
+    CastSpellByName("Healing Touch")
+   elseif class == "Priest" then
+    CastSpellByName("Power Word: Shield")
+   elseif class == "Paladin" then
+    CastSpellByName("Lay on Hands")
+   end
   else
    CastSpellByName(spell)
   end
   TargetLastTarget()
  else
-  TargetByName(tank)
+  TargetByName(tank, 1)
   local tankHP = UnitHealth("target") × 100 / UnitMaxHealth("target")
   if tankHP <= hpThr then
-   CastSpellByName("Nature's Swiftness")
-   CastSpellByName("Healing Wave")
+   SpellStopCasting()
+   if class == "Shaman" then
+    CastSpellByName("Nature's Swiftness")
+    CastSpellByName("Healing Wave")
+   elseif class == "Druid" then
+    CastSpellByName("Nature's Swiftness")
+    CastSpellByName("Healing Touch")
+   elseif class == "Priest" then
+    CastSpellByName("Power Word: Shield")
+   elseif class == "Paladin" then
+    CastSpellByName("Lay on Hands")
+   end
   else
    CastSpellByName(spell)
   end
