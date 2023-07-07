@@ -991,3 +991,28 @@ function dwMacro()
 		hamstring(80)
 	end  
 end
+
+function sosCast(spell,tank,hpThr)
+ local class = UnitClass("player")
+ if UnitExists("target") then
+  TargetByName(tank)
+  local tankHP = UnitHealth("target") × 100 / UnitMaxHealth("target")
+  if tankHP <= hpThr then
+   CastSpellByName("Nature's Swiftness")
+   CastSpellByName("Healing Wave")
+  else
+   CastSpellByName(spell)
+  end
+  TargetLastTarget()
+ else
+  TargetByName(tank)
+  local tankHP = UnitHealth("target") × 100 / UnitMaxHealth("target")
+  if tankHP <= hpThr then
+   CastSpellByName("Nature's Swiftness")
+   CastSpellByName("Healing Wave")
+  else
+   CastSpellByName(spell)
+  end
+  ClearTarget()
+ end
+end
