@@ -1019,7 +1019,7 @@ function sosCast(spell, tank, hpThr)
 					CastSpellByName("Healing Touch")
 				end
 			elseif class == "Priest" then
-				if FindBuff("Weakened Soul", "target") or OnCooldown("Power Word: Shield) ~= 0 then
+				if FindBuff("Weakened Soul", "target") or OnCooldown("Power Word: Shield") ~= 0 then
 					CastSpellByName("Flash Heal")
 				else
 					CastSpellByName("Power Word: Shield")
@@ -1055,7 +1055,7 @@ function sosCast(spell, tank, hpThr)
 					CastSpellByName("Healing Touch")
 				end
 			elseif class == "Priest" then
-				if FindBuff("Weakened Soul", "target") or OnCooldown("Power Word: Shield) ~= 0 then
+				if FindBuff("Weakened Soul", "target") or OnCooldown("Power Word: Shield") ~= 0 then
 					CastSpellByName("Flash Heal")
 				else
 					CastSpellByName("Power Word: Shield")
