@@ -40,29 +40,35 @@ function rebuff(spellhere, targetWho)
 	if not FindBuff(spellhere, targetWho) then CastSpellByName(spellhere) end
 end
 
-function hsqueue()
-  local cur = currentMHSwingTime
-  local max = totalMHSwingTime
-  if (max - cur < 1) and (UnitMana("player") < 75) then
-    SpellStopCasting()
-  else
-    CastSpellByName("Heroic Strike")
-  end
+function hsqueue(value)
+	local AbarSwingTimeMH, AbarSwingTimeOH, AbarSwingTimeR = ABarSwingTimers()
+		if AbarSwingTimeMH == nil then
+			AbarSwingTimeMH = 0
+		end
+	local swingTimeMH = UnitAttackSpeed("player") + AbarSwingTimeMH - GetTime()
+	local swingThr = UnitAttackSpeed("player") * 0.15
+	local class = UnitClass("player")
+
+	if swingTimeMH < swingThr and (UnitMana("player") < value) then
+		SpellStopCasting()
+	else
+		CastSpellByName("Heroic Strike")
+	end
 end
 
 function mouseoverSpell(spell)
-  if UnitExists("mouseover") then
-    local switchback = not UnitIsUnit("target", "mouseover")
-
-    TargetUnit("mouseover")
-    CastSpellByName(spell)
-
-    if switchback then
-      TargetLastTarget()
-    end
-  else
-    CastSpellByName(spell)
-  end
+	if UnitExists("mouseover") then
+		local switchback = not UnitIsUnit("target", "mouseover")
+	
+		TargetUnit("mouseover")
+		CastSpellByName(spell)
+	
+		if switchback then
+			TargetLastTarget()
+		end
+	else
+		CastSpellByName(spell)
+	end
 end
 
 function StackCast(spell,numstacks)
