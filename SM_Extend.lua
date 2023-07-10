@@ -1006,7 +1006,7 @@ function sosCast(spell, tank, hpThr)
 		if tankHP <= hpThr then
 			if class == "Shaman" then
 				if OnCooldown("Nature's Swiftness") ~= 0 then
-					CastSpellByName("Healing Wave")
+					CastSpellByName("Lesser Healing Wave")
 				else
 					CastSpellByName("Nature's Swiftness")
 					CastSpellByName("Healing Wave")
