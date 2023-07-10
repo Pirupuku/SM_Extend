@@ -91,8 +91,8 @@ A no modificator function. Returns true if shift and control and alt is not pres
 ## Get icon and tooltip
 Add the following line as FIRST line to every macro
 ```
-/run if nil then CastSpellByName("spell(rank x)") end
+/run --CastSpellByName("spell(rank x)")
 ```
 Type the spell name (and rank) you want to see as icon and the respectively tooltip
 
-Eg.: /run if nil then CastSpellByName("Flash Heal(Rank 1)") end
+Eg.: /run --CastSpellByName("Flash Heal(Rank 1)")
