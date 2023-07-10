@@ -992,48 +992,79 @@ function dwMacro()
 	end  
 end
 
-function sosCast(spell,tank,hpThr)
- local class = UnitClass("player")
- if UnitExists("target") then
-  TargetByName(tank, 1)
-  local tankHP = UnitHealth("target") × 100 / UnitMaxHealth("target")
-  if tankHP <= hpThr then
-   --einbetten mit OnCooldown, um spell sonst auf tank zu casten
-   SpellStopCasting()
-   if class == "Shaman" then
-    CastSpellByName("Nature's Swiftness")
-    CastSpellByName("Healing Wave")
-   elseif class == "Druid" then
-    CastSpellByName("Nature's Swiftness")
-    CastSpellByName("Healing Touch")
-   elseif class == "Priest" then
-    CastSpellByName("Power Word: Shield")
-   elseif class == "Paladin" then
-    CastSpellByName("Lay on Hands")
-   end
-  else
-   CastSpellByName(spell)
-  end
-  TargetLastTarget()
- else
-  TargetByName(tank, 1)
-  local tankHP = UnitHealth("target") × 100 / UnitMaxHealth("target")
-  if tankHP <= hpThr then
-   SpellStopCasting()
-   if class == "Shaman" then
-    CastSpellByName("Nature's Swiftness")
-    CastSpellByName("Healing Wave")
-   elseif class == "Druid" then
-    CastSpellByName("Nature's Swiftness")
-    CastSpellByName("Healing Touch")
-   elseif class == "Priest" then
-    CastSpellByName("Power Word: Shield")
-   elseif class == "Paladin" then
-    CastSpellByName("Lay on Hands")
-   end
-  else
-   CastSpellByName(spell)
-  end
-  ClearTarget()
- end
+function sosCast(spell, tank, hpThr)
+	local class = UnitClass("player")
+	if UnitExists("target") then
+		TargetByName(tank, true)
+		local tankHP = UnitHealth("target") × 100 / UnitMaxHealth("target")
+		if tankHP <= hpThr then
+			if class == "Shaman" then
+				if OnCooldown("Nature's Swiftness") ~= 0 then
+					CastSpellByName("Healing Wave")
+				else
+					CastSpellByName("Nature's Swiftness")
+					CastSpellByName("Healing Wave")
+				end
+			elseif class == "Druid" then
+				if OnCooldown("Nature's Swiftness") ~= 0 then
+					CastSpellByName("Healing Touch")
+				else
+					CastSpellByName("Nature's Swiftness")
+					CastSpellByName("Healing Touch")
+				end
+			elseif class == "Priest" then
+				if FindBuff("Weakened Soul", "target") or OnCooldown("Power Word: Shield) ~= 0 then
+					CastSpellByName("Flash Heal")
+				else
+					CastSpellByName("Power Word: Shield")
+					CastSpellByName("Flash Heal")
+				end
+			elseif class == "Paladin" then
+				if OnCooldown("Lay on Hands") then
+					CastSpellByName("Flash of Light")
+				else
+					CastSpellByName("Lay on Hands")
+				end
+			end
+		else
+			TargetLastTarget()
+			CastSpellByName(spell)
+		end
+	else
+		TargetByName(tank, true)
+		local tankHP = UnitHealth("target") × 100 / UnitMaxHealth("target")
+		if tankHP <= hpThr then
+			if class == "Shaman" then
+				if OnCooldown("Nature's Swiftness") ~= 0 then
+					CastSpellByName("Healing Wave")
+				else
+					CastSpellByName("Nature's Swiftness")
+					CastSpellByName("Healing Wave")
+				end
+			elseif class == "Druid" then
+				if OnCooldown("Nature's Swiftness") ~= 0 then
+					CastSpellByName("Healing Touch")
+				else
+					CastSpellByName("Nature's Swiftness")
+					CastSpellByName("Healing Touch")
+				end
+			elseif class == "Priest" then
+				if FindBuff("Weakened Soul", "target") or OnCooldown("Power Word: Shield) ~= 0 then
+					CastSpellByName("Flash Heal")
+				else
+					CastSpellByName("Power Word: Shield")
+					CastSpellByName("Flash Heal")
+				end
+			elseif class == "Paladin" then
+				if OnCooldown("Lay on Hands") then
+					CastSpellByName("Flash of Light")
+				else
+					CastSpellByName("Lay on Hands")
+				end
+			end
+		else
+			ClearTarget()
+			CastSpellByName(spell)
+		end
+	end
 end
