@@ -1008,6 +1008,7 @@ function sosCast(spell, tank, hpThr)
 				if OnCooldown("Nature's Swiftness") ~= 0 then
 					CastSpellByName("Lesser Healing Wave")
 				else
+					SpellStopCasting()
 					CastSpellByName("Nature's Swiftness")
 					CastSpellByName("Healing Wave")
 				end
@@ -1015,6 +1016,7 @@ function sosCast(spell, tank, hpThr)
 				if OnCooldown("Nature's Swiftness") ~= 0 then
 					CastSpellByName("Healing Touch")
 				else
+					SpellStopCasting()
 					CastSpellByName("Nature's Swiftness")
 					CastSpellByName("Healing Touch")
 				end
@@ -1022,18 +1024,22 @@ function sosCast(spell, tank, hpThr)
 				if FindBuff("Weakened Soul", "target") or OnCooldown("Power Word: Shield") ~= 0 then
 					CastSpellByName("Flash Heal")
 				else
+					SpellStopCasting()
 					CastSpellByName("Power Word: Shield")
 					CastSpellByName("Flash Heal")
 				end
 			elseif class == "Paladin" then
-				if OnCooldown("Lay on Hands") then
+				if OnCooldown("Lay on Hands") ~= 0 then
 					CastSpellByName("Flash of Light")
 				else
+					SpellStopCasting()
 					CastSpellByName("Lay on Hands")
 				end
 			end
 		else
-			TargetLastTarget()
+			if UnitName("target") ~= tank then
+				TargetLastTarget()
+			end
 			CastSpellByName(spell)
 		end
 	else
@@ -1044,6 +1050,7 @@ function sosCast(spell, tank, hpThr)
 				if OnCooldown("Nature's Swiftness") ~= 0 then
 					CastSpellByName("Healing Wave")
 				else
+					SpellStopCasting()
 					CastSpellByName("Nature's Swiftness")
 					CastSpellByName("Healing Wave")
 				end
@@ -1051,6 +1058,7 @@ function sosCast(spell, tank, hpThr)
 				if OnCooldown("Nature's Swiftness") ~= 0 then
 					CastSpellByName("Healing Touch")
 				else
+					SpellStopCasting()
 					CastSpellByName("Nature's Swiftness")
 					CastSpellByName("Healing Touch")
 				end
@@ -1058,13 +1066,15 @@ function sosCast(spell, tank, hpThr)
 				if FindBuff("Weakened Soul", "target") or OnCooldown("Power Word: Shield") ~= 0 then
 					CastSpellByName("Flash Heal")
 				else
+					SpellStopCasting()
 					CastSpellByName("Power Word: Shield")
 					CastSpellByName("Flash Heal")
 				end
 			elseif class == "Paladin" then
-				if OnCooldown("Lay on Hands") then
+				if OnCooldown("Lay on Hands") ~= 0 then
 					CastSpellByName("Flash of Light")
 				else
+					SpellStopCasting()
 					CastSpellByName("Lay on Hands")
 				end
 			end
