@@ -1002,7 +1002,7 @@ function sosCast(spell, tank, hpThr)
 	local class = UnitClass("player")
 	if UnitExists("target") then
 		TargetByName(tank, true)
-		local tankHP = UnitHealth("target") × 100 / UnitHealthMax("target")
+		local tankHP = UnitHealth("target") * 100 / UnitHealthMax("target")
 		if tankHP <= hpThr then
 			if class == "Shaman" then
 				if OnCooldown("Nature's Swiftness") ~= 0 then
@@ -1038,7 +1038,7 @@ function sosCast(spell, tank, hpThr)
 		end
 	else
 		TargetByName(tank, true)
-		local tankHP = UnitHealth("target") × 100 / UnitHealthMax("target")
+		local tankHP = UnitHealth("target") * 100 / UnitHealthMax("target")
 		if tankHP <= hpThr then
 			if class == "Shaman" then
 				if OnCooldown("Nature's Swiftness") ~= 0 then
