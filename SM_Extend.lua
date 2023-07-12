@@ -824,10 +824,15 @@ function weaponSwap(mh1,oh1,mh2,oh2)
 		currentOH = ""
 	end
 	if currentMH ~= mh1 and currentMH ~= mh2 then
-		b,s=FindItem(mh1) PickupContainerItem(b,s) EquipCursorItem(16)
-		if oh1 ~= "" or oh1 ~= nil or oh1 ~= " " then
-			if currentOH ~= oh1 then
-				b,s=FindItem(oh1) PickupContainerItem(b,s) EquipCursorItem(17)
+		if strfind(currentOH,mh1) then
+			PickupInventoryItem(17)
+			PutItemInBackpack()
+		else
+			b,s=FindItem(mh1) PickupContainerItem(b,s) EquipCursorItem(16)
+			if oh1 ~= "" or oh1 ~= nil or oh1 ~= " " then
+				if currentOH ~= oh1 then
+					b,s=FindItem(oh1) PickupContainerItem(b,s) EquipCursorItem(17)
+				end
 			end
 		end
 	end
