@@ -1092,3 +1092,41 @@ function sosCast(spell, tank, hpThr)
 		end
 	end
 end
+
+function raidSubHot()
+	local class = UnitClass("player")
+	local player = UnitName("player")
+	local raidMem = 1
+	local currTarget = ""
+	if UnitExists("target") then
+		currTarget = UnitName("target")
+	end
+	while raidMem < MAX_RAID_MEMBERS do
+		local nameTemp, _, subgroupTemp = GetRaidRosterInfo(raidMem)
+		if nameTemp == player then
+			local playerSub = subgroupTemp
+			raidMem = MAX_RAID_MEMBERS
+		end
+		raidMem = raidMem + 1
+	end
+	for i = 1, MAX_RAID_MEMBERS do
+		local name, _, subgroup = GetRaidRosterInfo(i)
+		if subgroup == playerSub then
+			TargetByName(name, true)
+			if class == "Priest" then
+				if not FindBuff("Renew","target") then
+					CastSpellByName("Renew")
+				end
+			elseif class == "Druid" then
+				if not FindBuff("Rejuvenation","target") then
+					CastSpellByName("Rejuvenation")
+				end
+			end
+			if currTarget ~= "" then
+				TargetLastTarget()
+			else
+				ClearTarget()
+			end
+		end
+	end
+end
