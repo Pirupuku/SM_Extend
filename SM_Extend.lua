@@ -823,6 +823,14 @@ function weaponSwap(mh1,oh1,mh2,oh2)
 	if currentOH == nil then
 		currentOH = ""
 	end
+	if currentMH ~= mh1 and currentMH ~= mh2 then
+		b,s=FindItem(mh1) PickupContainerItem(b,s) EquipCursorItem(16)
+		if oh1 ~= "" or oh1 ~= nil then
+			if currentOH ~= oh1 then
+				b,s=FindItem(oh1) PickupContainerItem(b,s) EquipCursorItem(17)
+			end
+		end
+	end
 	if oh1 == "" or oh1 == nil or oh2 == "" or oh2 == nil then	
 		if GetInventoryItemLink("player",17) == nil then
 			b,s=FindItem(mh2) PickupContainerItem(b,s) EquipCursorItem(16)
