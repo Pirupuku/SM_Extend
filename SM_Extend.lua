@@ -825,13 +825,13 @@ function weaponSwap(mh1,oh1,mh2,oh2)
 	end
 	if currentMH ~= mh1 and currentMH ~= mh2 then
 		b,s=FindItem(mh1) PickupContainerItem(b,s) EquipCursorItem(16)
-		if oh1 ~= "" or oh1 ~= nil then
+		if oh1 ~= "" or oh1 ~= nil or oh1 ~= " " then
 			if currentOH ~= oh1 then
 				b,s=FindItem(oh1) PickupContainerItem(b,s) EquipCursorItem(17)
 			end
 		end
 	end
-	if oh1 == "" or oh1 == nil or oh2 == "" or oh2 == nil then	
+	if oh1 == "" or oh1 == nil or oh1 == " " or oh2 == "" or oh2 == nil or oh2 == " " then	
 		if GetInventoryItemLink("player",17) == nil then
 			b,s=FindItem(mh2) PickupContainerItem(b,s) EquipCursorItem(16)
 			b,s=FindItem(oh2) PickupContainerItem(b,s) EquipCursorItem(17)
@@ -840,7 +840,7 @@ function weaponSwap(mh1,oh1,mh2,oh2)
 		end
 	else
 		--DEFAULT_CHAT_FRAME:AddMessage("I am here")
-		if mh1 == oh2 and mh2 == oh1 and currentOH ~= "" then
+		if mh1 == oh2 and mh2 == oh1 and currentOH ~= "" and currentOH ~= " " then
 			PickupInventoryItem(17)
 			EquipCursorItem(16)
 		elseif oh1 == mh2 then
