@@ -40,7 +40,7 @@ function rebuff(spellhere, targetWho)
 	if not FindBuff(spellhere, targetWho) then CastSpellByName(spellhere) end
 end
 
-function hsqueue(value)
+function hsqueue()
 	local AbarSwingTimeMH, AbarSwingTimeOH, AbarSwingTimeR = ABarSwingTimers()
 		if AbarSwingTimeMH == nil then
 			AbarSwingTimeMH = 0
@@ -49,10 +49,8 @@ function hsqueue(value)
 	local swingThr = UnitAttackSpeed("player") * 0.15
 	local class = UnitClass("player")
 
-	if swingTimeMH < swingThr and (UnitMana("player") < value) then
+	if swingTimeMH < swingThr then
 		SpellStopCasting()
-	else
-		CastSpellByName("Heroic Strike")
 	end
 end
 
