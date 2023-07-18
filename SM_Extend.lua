@@ -1036,6 +1036,55 @@ function dwMacro()
 	end
 end
 
+function warDpsMacro()
+	local _, _, i = strfind((GetInventoryItemLink("player",17) or ""),"(item:%d+:%d+:%d+:%d+)");
+	local _, _, _, _, _, s = GetItemInfo((i or 0));
+	local base, posBuff, negBuff = UnitAttackPower("player")
+	local ap = base + posBuff + negBuff
+	if (s==nil or s=="") then
+		if UnitExists("target") then
+			if UnitHealth("target") * 100 / UnitHealthMax("target") <= 20 and ap >= 2000 then
+				if OnCooldown("Bloodthirst") <= 1.5 then
+					CastSpellByName("Bloodthirst")
+				else
+					CastSpellByName("Execute")
+				end
+			elseif UnitHealth("target") * 100 / UnitHealthMax("target") <= 20 then
+				CastSpellByName("Execute")
+			else
+				if OnCooldown("Bloodthirst") <= 1.5 then
+					CastSpellByName("Bloodthirst")
+				elseif OnCooldown("Whirlwind") <= 1.5 then
+					stanceDance(3,"Whirlwind","Berserker Stance")
+				else
+					hamstring(60)
+				end  
+			end
+		end
+	elseif (s=="Weapons") then
+		if UnitExists("target") then
+			heroicStrike(50)
+			if UnitHealth("target") * 100 / UnitHealthMax("target") <= 20 and ap >= 2000 then
+				if OnCooldown("Bloodthirst") <= 1.5 then
+					CastSpellByName("Bloodthirst")
+				else
+					CastSpellByName("Execute")
+				end
+			elseif UnitHealth("target") * 100 / UnitHealthMax("target") <= 20 then
+				CastSpellByName("Execute")
+			else
+				if OnCooldown("Bloodthirst") <= 1.5 then
+					CastSpellByName("Bloodthirst")
+				elseif OnCooldown("Whirlwind") <= 1.5 then
+					stanceDance(3,"Whirlwind","Berserker Stance")
+				else
+					hamstring(80)
+				end  
+			end
+		end
+	end
+end
+
 function sosCast(spell, tank, hpThr)
 	local class = UnitClass("player")
 	if UnitExists("target") then
