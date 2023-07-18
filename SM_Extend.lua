@@ -1129,13 +1129,14 @@ function raidSubHot()
 	local player = UnitName("player")
 	local raidMem = 1
 	local currTarget = ""
+	local playerSub = 1
 	if UnitExists("target") then
 		currTarget = UnitName("target")
 	end
 	while raidMem < MAX_RAID_MEMBERS do
 		local nameTemp, _, subgroupTemp = GetRaidRosterInfo(raidMem)
 		if nameTemp == player then
-			local playerSub = subgroupTemp
+			playerSub = subgroupTemp
 			raidMem = MAX_RAID_MEMBERS
 		end
 		raidMem = raidMem + 1
