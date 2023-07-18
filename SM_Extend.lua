@@ -992,7 +992,7 @@ function twoHand()
 	local ap = base + posBuff + negBuff
 	if UnitExists("target") then
 		if UnitHealth("target") * 100 / UnitHealthMax("target") <= 20 and ap >= 2000 then
-			if OnCooldown("Bloodthirst") <= 1.5 then
+			if OnCooldown("Bloodthirst") <= 1.5 and UnitMana("player") >= 30 then
 				CastSpellByName("Bloodthirst")
 			else
 				CastSpellByName("Execute")
@@ -1017,7 +1017,7 @@ function dwMacro()
 	if UnitExists("target") then
 		heroicStrike(50)
 		if UnitHealth("target") * 100 / UnitHealthMax("target") <= 20 and ap >= 2000 then
-			if OnCooldown("Bloodthirst") <= 1.5 then
+			if OnCooldown("Bloodthirst") <= 1.5 and UnitMana("player") >= 30 then
 				CastSpellByName("Bloodthirst")
 			else
 				CastSpellByName("Execute")
@@ -1044,7 +1044,7 @@ function warDpsMacro()
 	if (s==nil or s=="") then
 		if UnitExists("target") then
 			if UnitHealth("target") * 100 / UnitHealthMax("target") <= 20 and ap >= 2000 then
-				if OnCooldown("Bloodthirst") <= 1.5 then
+				if OnCooldown("Bloodthirst") <= 1.5 and UnitMana("player") >= 30 then
 					CastSpellByName("Bloodthirst")
 				else
 					CastSpellByName("Execute")
@@ -1065,7 +1065,7 @@ function warDpsMacro()
 		if UnitExists("target") then
 			heroicStrike(50)
 			if UnitHealth("target") * 100 / UnitHealthMax("target") <= 20 and ap >= 2000 then
-				if OnCooldown("Bloodthirst") <= 1.5 then
+				if OnCooldown("Bloodthirst") <= 1.5 and UnitMana("player") >= 30 then
 					CastSpellByName("Bloodthirst")
 				else
 					CastSpellByName("Execute")
