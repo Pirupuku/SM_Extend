@@ -719,9 +719,8 @@ function aoeTaunt()
 		if OnCooldown("Challenging Shout")==0 or GetContainerItemCooldown(bag, slot)==0 then
 			if UnitMana("player") >= 3 then
 				if not FindBuff("Invulnerability","player") then
-					UseItemByName("Limited Invulnerability Potion")
-				--else
 					CastSpellByName("Challenging Shout")
+					UseItemByName("Limited Invulnerability Potion")
 					SendChatMessage("AOE Taunt + LIP -> check HP please!","SAY")
 				end
 			end
